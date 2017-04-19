@@ -1,5 +1,6 @@
 import java.awt.EventQueue;
 
+import javax.crypto.Cipher;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
@@ -12,12 +13,14 @@ import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.awt.SystemColor;
 import java.awt.Font;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.NoSuchAlgorithmException;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -49,16 +52,20 @@ public class TugasCIS_UI {
 
 	/**
 	 * Create the application.
+	 * @throws NoSuchAlgorithmException 
+	 * @throws HeadlessException 
 	 */
-	public TugasCIS_UI() {
+	public TugasCIS_UI() throws HeadlessException, NoSuchAlgorithmException {
 		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws NoSuchAlgorithmException 
+	 * @throws HeadlessException 
 	 */
 
-	private void initialize() {
+	private void initialize() throws HeadlessException, NoSuchAlgorithmException {
 		frmCbtaesCalculator = new JFrame();
 		frmCbtaesCalculator.setForeground(Color.WHITE);
 		frmCbtaesCalculator.setTitle("CTR-AES Calculator");
@@ -98,7 +105,9 @@ public class TugasCIS_UI {
 		//		lblOutput.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		//		lblOutput.setBounds(28, 154, 46, 14);
 		//		frmCbtaesCalculator.getContentPane().add(lblOutput);
-
+		if (Cipher.getMaxAllowedKeyLength("AES") <= 128) {
+			JOptionPane.showMessageDialog(null, "To use another size of key, please update your JCE Policy files");
+		}
 
 
 		JButton btnBrowseInput = new JButton("Browse");
