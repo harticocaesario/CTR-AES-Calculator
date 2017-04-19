@@ -67,89 +67,89 @@ public class TugasCIS_UI {
 		frmCbtaesCalculator.setBounds(100, 100, 450, 300);
 		frmCbtaesCalculator.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCbtaesCalculator.getContentPane().setLayout(null);
-		
+
 		textFieldKey = new JTextField();
 		textFieldKey.setBounds(84, 82, 229, 24);
 		frmCbtaesCalculator.getContentPane().add(textFieldKey);
 		textFieldKey.setColumns(10);
-		
+
 		textFieldInput = new JTextField();
 		textFieldInput.setToolTipText("");
 		textFieldInput.setColumns(10);
 		textFieldInput.setBounds(84, 35, 229, 24);
 		frmCbtaesCalculator.getContentPane().add(textFieldInput);
-		
-//		textFieldOutput = new JTextField();
-//		textFieldOutput.setColumns(10);
-//		textFieldOutput.setBounds(84, 150, 229, 24);
-//		frmCbtaesCalculator.getContentPane().add(textFieldOutput);
-		
+
+		//		textFieldOutput = new JTextField();
+		//		textFieldOutput.setColumns(10);
+		//		textFieldOutput.setBounds(84, 150, 229, 24);
+		//		frmCbtaesCalculator.getContentPane().add(textFieldOutput);
+
 		JLabel lblInputFile = new JLabel("Input");
 		lblInputFile.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblInputFile.setBounds(28, 39, 46, 14);
 		frmCbtaesCalculator.getContentPane().add(lblInputFile);
-		
+
 		JLabel lblKey = new JLabel("Key");
 		lblKey.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblKey.setBounds(28, 86, 46, 14);
 		frmCbtaesCalculator.getContentPane().add(lblKey);
-		
-//		JLabel lblOutput = new JLabel("Output");
-//		lblOutput.setFont(new Font("Tahoma", Font.PLAIN, 12));
-//		lblOutput.setBounds(28, 154, 46, 14);
-//		frmCbtaesCalculator.getContentPane().add(lblOutput);
-		
-		
-		
+
+		//		JLabel lblOutput = new JLabel("Output");
+		//		lblOutput.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		//		lblOutput.setBounds(28, 154, 46, 14);
+		//		frmCbtaesCalculator.getContentPane().add(lblOutput);
+
+
+
 		JButton btnBrowseInput = new JButton("Browse");
 		btnBrowseInput.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnBrowseInput.setBackground(SystemColor.controlHighlight);
 		btnBrowseInput.setBounds(323, 35, 89, 24);
 		frmCbtaesCalculator.getContentPane().add(btnBrowseInput);
 		btnBrowseInput.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent evt) {
-	            JFileChooser chooser = new JFileChooser();
-	            chooser.setCurrentDirectory(new java.io.File("."));
-	            chooser.setDialogTitle("Browse the input file");
-	            chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-	          //chooser.setAcceptAllFileFilterUsed(false);
+			public void actionPerformed(ActionEvent evt) {
+				JFileChooser chooser = new JFileChooser();
+				chooser.setCurrentDirectory(new java.io.File("."));
+				chooser.setDialogTitle("Browse the input file");
+				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				//chooser.setAcceptAllFileFilterUsed(false);
 
-	            if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-	                System.out.println("getCurrentDirectory(): "+ chooser.getCurrentDirectory());
-	                System.out.println("getSelectedFile() : "+ chooser.getSelectedFile());
-	                textFieldInput.setText(chooser.getSelectedFile().toString());
-	                
-	            } else {
-	                System.out.println("No Selection ");
-	            }
-	        }
-	    });
-		
+				if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+					System.out.println("getCurrentDirectory(): "+ chooser.getCurrentDirectory());
+					System.out.println("getSelectedFile() : "+ chooser.getSelectedFile());
+					textFieldInput.setText(chooser.getSelectedFile().toString());
 
-		
+				} else {
+					System.out.println("No Selection ");
+				}
+			}
+		});
+
+
+
 		JButton btnBrowseKey = new JButton("Browse");
 		btnBrowseKey.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnBrowseKey.setBackground(SystemColor.controlHighlight);
 		btnBrowseKey.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFileChooser chooser = new JFileChooser();
-	            chooser.setCurrentDirectory(new java.io.File("."));
-	            chooser.setDialogTitle("Browse the key file");
-	            chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-	          //chooser.setAcceptAllFileFilterUsed(false);
+				chooser.setCurrentDirectory(new java.io.File("."));
+				chooser.setDialogTitle("Browse the key file");
+				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				//chooser.setAcceptAllFileFilterUsed(false);
 
-	            if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-	                System.out.println("getCurrentDirectory(): "+ chooser.getCurrentDirectory());
-	                System.out.println("getSelectedFile() : "+ chooser.getSelectedFile());
-	                textFieldKey.setText(chooser.getSelectedFile().toString());
-	            } else {
-	                System.out.println("No Selection ");
-	            }
+				if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+					System.out.println("getCurrentDirectory(): "+ chooser.getCurrentDirectory());
+					System.out.println("getSelectedFile() : "+ chooser.getSelectedFile());
+					textFieldKey.setText(chooser.getSelectedFile().toString());
+				} else {
+					System.out.println("No Selection ");
+				}
 			}
 		});
 		btnBrowseKey.setBounds(323, 81, 89, 24);
 		frmCbtaesCalculator.getContentPane().add(btnBrowseKey);
-		
+
 		/**
 		 * Encrypt Button
 		 * */
@@ -163,7 +163,7 @@ public class TugasCIS_UI {
 				// TODO Auto-generated method stub
 				String fileLoc = textFieldInput.getText();
 				String keyLoc = textFieldKey.getText();
-				
+
 				String result = "";
 				try {
 					result = CtrAES.begin("ENCRYPT", fileLoc, keyLoc);
@@ -172,13 +172,13 @@ public class TugasCIS_UI {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
-				System.out.println(result);
+
+				//				System.out.println(result);
 			}
-			
+
 		});
 		frmCbtaesCalculator.getContentPane().add(btnEncrypt);
-		
+
 		/**
 		 * Decrypt Button
 		 * */
@@ -192,21 +192,21 @@ public class TugasCIS_UI {
 				// TODO Auto-generated method stub
 				String fileLoc = textFieldInput.getText();
 				String keyLoc = textFieldKey.getText();
-				
+
 				Path filePath = Paths.get(fileLoc);
 				String result = "";
 				try {
-						result = CtrAES.begin("DECRYPT", fileLoc, keyLoc);
-						JOptionPane.showMessageDialog(null, result);
+					result = CtrAES.begin("DECRYPT", fileLoc, keyLoc);
+					JOptionPane.showMessageDialog(null, result);
 				} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
-				
+
 			}
-			
+
 		});
 		frmCbtaesCalculator.getContentPane().add(btnDecrypt);
-		
+
 	}
 }
