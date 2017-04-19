@@ -14,6 +14,14 @@ import javax.swing.JRadioButton;
 import java.awt.Color;
 import java.awt.SystemColor;
 import java.awt.Font;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.awt.*;
+import java.awt.event.*;
+
+import javax.swing.*;
 
 
 public class TugasCIS_UI {
@@ -71,10 +79,10 @@ public class TugasCIS_UI {
 		textFieldInput.setBounds(84, 35, 229, 24);
 		frmCbtaesCalculator.getContentPane().add(textFieldInput);
 		
-		textFieldOutput = new JTextField();
-		textFieldOutput.setColumns(10);
-		textFieldOutput.setBounds(84, 150, 229, 24);
-		frmCbtaesCalculator.getContentPane().add(textFieldOutput);
+//		textFieldOutput = new JTextField();
+//		textFieldOutput.setColumns(10);
+//		textFieldOutput.setBounds(84, 150, 229, 24);
+//		frmCbtaesCalculator.getContentPane().add(textFieldOutput);
 		
 		JLabel lblInputFile = new JLabel("Input");
 		lblInputFile.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -86,10 +94,12 @@ public class TugasCIS_UI {
 		lblKey.setBounds(28, 86, 46, 14);
 		frmCbtaesCalculator.getContentPane().add(lblKey);
 		
-		JLabel lblOutput = new JLabel("Output");
-		lblOutput.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblOutput.setBounds(28, 154, 46, 14);
-		frmCbtaesCalculator.getContentPane().add(lblOutput);
+//		JLabel lblOutput = new JLabel("Output");
+//		lblOutput.setFont(new Font("Tahoma", Font.PLAIN, 12));
+//		lblOutput.setBounds(28, 154, 46, 14);
+//		frmCbtaesCalculator.getContentPane().add(lblOutput);
+		
+		
 		
 		JButton btnBrowseInput = new JButton("Browse");
 		btnBrowseInput.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -100,8 +110,8 @@ public class TugasCIS_UI {
 	        public void actionPerformed(ActionEvent evt) {
 	            JFileChooser chooser = new JFileChooser();
 	            chooser.setCurrentDirectory(new java.io.File("."));
-	            chooser.setDialogTitle("Browse the folder to process");
-	            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+	            chooser.setDialogTitle("Browse the input file");
+	            chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 	          //chooser.setAcceptAllFileFilterUsed(false);
 
 	            if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
@@ -114,7 +124,7 @@ public class TugasCIS_UI {
 	            }
 	        }
 	    });
-
+		
 
 		
 		JButton btnBrowseKey = new JButton("Browse");
@@ -124,15 +134,14 @@ public class TugasCIS_UI {
 			public void actionPerformed(ActionEvent arg0) {
 				JFileChooser chooser = new JFileChooser();
 	            chooser.setCurrentDirectory(new java.io.File("."));
-	            chooser.setDialogTitle("Browse the folder to process");
-	            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+	            chooser.setDialogTitle("Browse the key file");
+	            chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 	          //chooser.setAcceptAllFileFilterUsed(false);
 
 	            if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 	                System.out.println("getCurrentDirectory(): "+ chooser.getCurrentDirectory());
 	                System.out.println("getSelectedFile() : "+ chooser.getSelectedFile());
 	                textFieldKey.setText(chooser.getSelectedFile().toString());
-	                
 	            } else {
 	                System.out.println("No Selection ");
 	            }
@@ -141,41 +150,63 @@ public class TugasCIS_UI {
 		btnBrowseKey.setBounds(323, 81, 89, 24);
 		frmCbtaesCalculator.getContentPane().add(btnBrowseKey);
 		
-		JButton btnSaveOutput = new JButton("Save As...");
-		btnSaveOutput.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnSaveOutput.setBackground(SystemColor.controlHighlight);
-		btnSaveOutput.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnSaveOutput.setBounds(323, 149, 89, 24);
-		frmCbtaesCalculator.getContentPane().add(btnSaveOutput);
-		
+		/**
+		 * Encrypt Button
+		 * */
 		JButton btnEncrypt = new JButton("Encrypt");
 		btnEncrypt.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnEncrypt.setBackground(SystemColor.scrollbar);
 		btnEncrypt.setBounds(85, 198, 106, 35);
+		btnEncrypt.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				String fileLoc = textFieldInput.getText();
+				String keyLoc = textFieldKey.getText();
+				
+				String result = "";
+				try {
+					result = CtrAES.begin("ENCRYPT", fileLoc, keyLoc);
+					JOptionPane.showMessageDialog(null, result);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				System.out.println(result);
+			}
+			
+		});
 		frmCbtaesCalculator.getContentPane().add(btnEncrypt);
 		
+		/**
+		 * Decrypt Button
+		 * */
 		JButton btnDecrypt = new JButton("Decrypt");
 		btnDecrypt.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnDecrypt.setBackground(SystemColor.scrollbar);
 		btnDecrypt.setBounds(208, 198, 106, 35);
+		btnDecrypt.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				String fileLoc = textFieldInput.getText();
+				String keyLoc = textFieldKey.getText();
+				
+				Path filePath = Paths.get(fileLoc);
+				String result = "";
+				try {
+						result = CtrAES.begin("DECRYPT", fileLoc, keyLoc);
+						JOptionPane.showMessageDialog(null, result);
+				} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+				}
+				
+			}
+			
+		});
 		frmCbtaesCalculator.getContentPane().add(btnDecrypt);
 		
-		JRadioButton rdbtn128Bit = new JRadioButton("128 bit");
-		rdbtn128Bit.setBackground(SystemColor.menu);
-		rdbtn128Bit.setBounds(85, 120, 81, 23);
-		frmCbtaesCalculator.getContentPane().add(rdbtn128Bit);
-		
-		JRadioButton rdbtn192Bit = new JRadioButton("192 bit");
-		rdbtn192Bit.setBackground(SystemColor.menu);
-		rdbtn192Bit.setBounds(168, 120, 75, 23);
-		frmCbtaesCalculator.getContentPane().add(rdbtn192Bit);
-		
-		JRadioButton rdbtn256Bit = new JRadioButton("256 bit");
-		rdbtn256Bit.setBackground(SystemColor.menu);
-		rdbtn256Bit.setBounds(245, 120, 81, 23);
-		frmCbtaesCalculator.getContentPane().add(rdbtn256Bit);
 	}
 }
