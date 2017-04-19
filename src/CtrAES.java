@@ -37,6 +37,8 @@ public class CtrAES {
 				filename = filename.substring(12);
 
 				result = decrypt(filename, input, key);
+			} else {
+				result = decrypt(filename, input, key);
 			}
 		}
 
